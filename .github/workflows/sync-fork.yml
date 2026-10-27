@@ -1,0 +1,21 @@
+name: Sync fork with upstream
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Merge upstream into main
+        run: |
+          git remote add upstream https://github.com/${{ github.event.repository.name == 'InternalBeyond-Mobile' && 'Sui-IB/InternalBeyond-Mobile' || 'Sui-IB/InternalBeyond' }}.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main --no-edit -X ours
+          git push origin main
