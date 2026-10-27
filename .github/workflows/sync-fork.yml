@@ -14,6 +14,8 @@ jobs:
           fetch-depth: 0
       - name: Merge upstream into main
         run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
           git remote add upstream https://github.com/${{ github.event.repository.name == 'InternalBeyond-Mobile' && 'Sui-IB/InternalBeyond-Mobile' || 'Sui-IB/InternalBeyond' }}.git
           git fetch upstream
           git checkout main
